@@ -61,17 +61,6 @@ void turnLeft(){
   analogWrite(ENA, 150);
   analogWrite(ENB, 150);
   
-  digitalWrite(IN1, HIGH);
-  digitalWrite(IN2, LOW);
-
-  digitalWrite(IN3, HIGH);
-  digitalWrite(IN4, LOW);
-}
-
-void turnRight(){
-  analogWrite(ENA, 150);
-  analogWrite(ENB, 150);
-  
   digitalWrite(IN1, LOW);
   digitalWrite(IN2, HIGH);
 
@@ -79,21 +68,33 @@ void turnRight(){
   digitalWrite(IN4, HIGH);
 }
 
+void turnRight(){
+  analogWrite(ENA, 150);
+  analogWrite(ENB, 150);
+  
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+}
+
 void obstacle(){
   float d = getDistance();
   if (d < 15) {
     stop();
     servo.write(180);
+    delay(400);
     float a = getDistance();
     if (a > 15) {
       turnLeft();
       delay(1000);
-      stop();
       servo.write(90);
+      stop();
     }
     else{
-      delay(1000);
       servo.write(0);
+      delay(400);
       float c = getDistance();
       if (c > 15) {
         turnRight();
