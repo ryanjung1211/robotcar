@@ -4,6 +4,9 @@
 #define IN2 8
 #define IN3 9
 #define IN4 11
+#define LT_RIGHT 10
+#define LT_MIDDLE 4
+#define LT_LEFT 2
 
 #include<Servo.h>
 Servo servo;
@@ -13,6 +16,10 @@ void setup(){
   pinMode(A4, INPUT);
   Serial.begin(9600);
   servo.attach(3);
+  pinMode(LT_RIGHT, INPUT);
+  pinMode(LT_MIDDLE, INPUT);
+  pinMode(LT_LEFT, INPUT);
+  
 }
 
 double getDistance(){
@@ -111,9 +118,33 @@ void obstacle(){
       }
     }
 }
+void line_track(){
+  int left = digitalRead(LT_LEFT);
+  int middle = digitalRead(LT_MIDDLE);
+  int right = digitalRead(LT_RIGHT);
 
+  if (not left and not middle and not right){
+    stop();
+    delay(3000);
+  }
+  else if (left and not right){
+    while (left and not right){
+      turnLeft();
+      int left = digitalRead(LT_LEFT);
+      int right = digitalRead(LT_RIGHT);
+    }
+    
+  }
+  else if (right and not left){
+    while (right and not left){
+      turnRight();
+      int right = digitalRead(LT_RIGHT);
+      int left = digitalRead(LT_LEFT);
+    }
+  }
+}
 
 void loop(){
-  obstacle();
-  delay(1000);
+  moveForward();
+  line_track();
 }
