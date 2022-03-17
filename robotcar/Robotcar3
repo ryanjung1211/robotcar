@@ -1,0 +1,90 @@
+#define ENA 5
+#define ENB 6
+#define IN1 7
+#define IN2 8 
+#define IN3 9
+#define IN4 11
+#define sp 100
+
+#include<Servo.h> 
+Servo servo; 
+
+void stop(){
+  analogWrite(ENA, 0);
+  analogWrite(ENB, 0);
+}
+
+void turnLeft(){
+  analogWrite(ENA, 150);
+  analogWrite(ENB, 150);
+  
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
+
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
+}
+
+void moveForward(){
+  analogWrite(ENA, 150);
+  analogWrite(ENB, 150);
+  
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
+}
+
+void turnRight(){
+  analogWrite(ENA, 150);
+  analogWrite(ENB, 150);
+  
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+}
+
+void moveBackward(){
+  analogWrite(ENA, 150);
+  analogWrite(ENB, 150);
+  
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
+
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+}
+
+
+
+
+void park_on_road_side() {
+ // if (can_park()) {
+    stop();  
+    turnRight();
+    delay(800); 
+    stop(); 
+    moveBackward(); 
+    delay(200); 
+    stop(); 
+    turnLeft(); 
+    delay(800); 
+    stop(); 
+    
+  }
+ 
+ void setup(){
+  pinMode(A5, OUTPUT);
+  pinMode(A4, INPUT);
+  Serial.begin(9600);
+  servo.attach(3);
+  park_on_road_side();
+}
+//}
+void loop() {
+  
+}
+
